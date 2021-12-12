@@ -5,6 +5,9 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+const titleCase = (s: string) => s.slice(0, 1).toUpperCase() + s.slice(1);
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -18,6 +21,23 @@ async function bootstrap() {
     maxAge: '1h',
     setHeaders: setCustomCacheControl,
   });
+
+  // app.enableCors({
+  //   origin: ['http://localhost:3000'],
+  // });
+
+  const config = new DocumentBuilder()
+    .setTitle('admin-boot')
+    .setDescription('The API description of admin-boot.')
+    .setVersion('1.0')
+    .addTag('admin-boot')
+    .build();
+  const document = SwaggerModule.createDocument(app, config, {
+    operationIdFactory: (controllerKey, method) =>
+      controllerKey.slice(0, -10).toLowerCase() + titleCase(method),
+  });
+  SwaggerModule.setup('api', app, document);
+  // app.setGlobalPrefix('/api');
 
   await app.listen(3000);
 }

@@ -10,18 +10,21 @@ import {
 } from 'remix';
 import type { LinksFunction } from 'remix';
 
+import arcoStyleUrl from '@arco-design/web-react/dist/css/arco.css';
+
 import globalStylesUrl from '~/styles/global.css';
 import darkStylesUrl from '~/styles/dark.css';
 
 // https://remix.run/api/app#links
 export let links: LinksFunction = () => {
   return [
-    { rel: 'stylesheet', href: globalStylesUrl },
-    {
-      rel: 'stylesheet',
-      href: darkStylesUrl,
-      media: '(prefers-color-scheme: dark)',
-    },
+    // { rel: 'stylesheet', href: globalStylesUrl },
+    // {
+    //   rel: 'stylesheet',
+    //   href: darkStylesUrl,
+    //   media: '(prefers-color-scheme: dark)',
+    // },
+    { rel: 'stylesheet', href: arcoStyleUrl },
   ];
 };
 
@@ -30,9 +33,9 @@ export let links: LinksFunction = () => {
 export default function App() {
   return (
     <Document>
-      <Layout>
+      {/* <Layout> */}
         <Outlet />
-      </Layout>
+      {/* </Layout> */}
     </Document>
   );
 }
